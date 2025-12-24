@@ -1,0 +1,23 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /home/ilue/dev/home_ui/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    environment:
+      - TZ=Europe/Moscow
+
+  mqtt:
+    container_name: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
+    volumes:
+      - /home/ilue/dev/home_ui/mosquitto/config:/mosquitto/config
+      - /home/ilue/dev/home_ui/mosquitto/data:/mosquitto/data
+      - /home/ilue/dev/home_ui/mosquitto/log:/mosquitto/log
+    restart: unless-stopped
+    network_mode: host
